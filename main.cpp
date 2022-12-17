@@ -1,23 +1,18 @@
 #include "mbed.h"
+#include "LedController.h"
 
-DigitalOut led1(LED1);
-DigitalOut led2(LED2);
 Thread thread;
 
-void led2_thread()
+
+void ledControllerThread()
 {
-    while (true) {
-        led2 = !led2;
-        ThisThread::sleep_for(250ms);
-    }
+    LedController* lc = lc->getInstance();
+    lc->run();
 }
 
 int main()
 {
-    thread.start(led2_thread);
-
-    while (true) {
-        led1 = !led1;
-        ThisThread::sleep_for(600ms);
-    }
+    thread.start(ledControllerThread);
+    LedController* lc = lc->getInstance();
+    lc->testLed();
 }
