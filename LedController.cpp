@@ -62,8 +62,8 @@ void lc_run() {
 }
 
 void lc_stop(){
-    lc_enabled = false;
     lc_setState(disabled);
+    lc_enabled = false;
     lc_thread.join();
 }
 
