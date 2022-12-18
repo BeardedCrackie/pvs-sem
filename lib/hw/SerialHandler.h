@@ -9,8 +9,11 @@ using namespace std;
 #define TARGET_RX_PIN           USBRX
 
 //static char cli_input;
-
-char sh_readChar();
-void on_rx_interrupt();
-void sh_init();
-void sh_write(string s);
+class SerialHandler {
+    public:
+        static char sh_readChar();
+        static string sh_readString();
+        static int sh_readInt();
+        static void sh_init();
+        static void sh_write(string s);
+};

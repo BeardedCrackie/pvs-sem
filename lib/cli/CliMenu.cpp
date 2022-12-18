@@ -7,10 +7,7 @@
 using namespace std;
 
 void CliMenu::printMenu() {
-    printf("\n\n=== %s ===\n", this->getName().c_str());
-
-    //sh_write("\n\n=== %s ===\n".format(this->getName().c_str()));
-
+    printf("\n=== %s ===\n", this->getName().c_str());
     for (int i = 0; i < this->menu_list.size(); i++) {
         printf("∟ %d: %s\n" , i + 1, this->menu_list[i]->getName().c_str());
     }
@@ -28,17 +25,16 @@ void CliMenu::selectItem() {
     while (!selected) {
         lc_setState(info);
         this->printMenu();
-        
-        sh_write("\nselect item from menu: ");
-        choice = sh_readChar();
-        sh_write("\n\n");
+        SerialHandler::sh_write("\nselect item from menu: ");
+        choice = SerialHandler::sh_readChar();
+        SerialHandler::sh_write("\n\n");
         int c = (int)choice - (int)'0' - 1;
         if (c >= 0 && c < (int)this->menu_list.size()) {
             this->menu_list[c]->apply();
         } else if (choice == 'e') {
             return;
         } else {
-          sh_write("Wrong choice\n")  ;
+          SerialHandler::sh_write("Wrong choice\n")  ;
         }
         ThisThread::sleep_for(500ms);
     }

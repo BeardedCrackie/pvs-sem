@@ -24,8 +24,8 @@ class MenuSimpleItem : public MenuItem {
         MenuSimpleItem(string name) : MenuItem(name) {};
         virtual void apply() override{
             lc_setState(prepare);
-            printf("\n\n=== %s ===\n\n", this->getName().c_str());
             ThisThread::sleep_for(2s);
+            printf("\n\n=== %s ===\n\n", this->getName().c_str());
             lc_setState(running);
             ThisThread::sleep_for(5s);
         }; 
@@ -34,11 +34,23 @@ class MenuSimpleItem : public MenuItem {
 class MenuActionItem : public MenuItem {
     private:
         callback_function action_function;
+        callback_function prepare_function;
     public:
         MenuActionItem(string name, callback_function action_function) : MenuItem(name) {
             this->action_function = action_function;
+            this->prepare_function = nullptr;
+        };
+        MenuActionItem(string name, callback_function action_function, callback_function prepare_function) : MenuItem(name) {
+            this->action_function = action_function;
+            this->prepare_function = prepare_function;
         };
         virtual void apply() override{
+            lc_setState(prepare);
+            if (prepare_function != nullptr) {
+                prepare_function();
+            }
+
+            lc_setState(running);
             action_function();
         }; 
 };

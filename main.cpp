@@ -16,7 +16,7 @@ int main(void)
     lc_setState(prepare);
     lc_run();
     ThisThread::sleep_for(2s);
-    sh_init();
+    SerialHandler::sh_init();
     ConsoleApp *ca = new ConsoleApp();
     ca->start();
     main_end();
