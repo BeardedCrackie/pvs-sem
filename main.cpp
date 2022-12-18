@@ -3,6 +3,9 @@
 #include "SerialHandler.h"
 #include "LedController.h"
 
+/*
+ * provide end led sequence and disable led controller
+ */
 void main_end() {
     lc_setState(prepare);
     ThisThread::sleep_for(2s);
@@ -11,6 +14,9 @@ void main_end() {
     lc_stop();
 }
 
+/*
+ * start console app
+ */
 int main(void)
 {
     lc_setState(prepare);
@@ -18,6 +24,6 @@ int main(void)
     ThisThread::sleep_for(2s);
     SerialHandler::sh_init();
     ConsoleApp *ca = new ConsoleApp();
-    ca->start();
+    ca->Start();
     main_end();
 }

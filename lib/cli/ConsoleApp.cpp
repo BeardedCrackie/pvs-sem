@@ -1,29 +1,36 @@
 #include "ConsoleApp.h"
 
+/*
+ * function to use as exemplary item
+ */
 void dummy_function() {
     AuxFunctions::aux_println("Game #1");
 }
 
-void ConsoleApp::start() {
+/*
+ * init main menu and items, then start cli application
+ */
+void ConsoleApp::Start() {
 
     // game ButtonClicker
     CliMenu gameButtonClicker("Button Clicker");
-    gameButtonClicker.addItem(new MenuActionItem("Start Game", &ButtonClicker::startGame));
+    gameButtonClicker.AddItem(new MenuActionItem("Start Game", &ButtonClicker::startGame));
 
     // game submenu
     CliMenu game_menu("Browse Games");
-    game_menu.addItem(&gameButtonClicker);
-    game_menu.addItem(new MenuActionItem("Game 1", &dummy_function));
-    game_menu.addItem(new MenuSimpleItem("Game 2"));
+    game_menu.AddItem(&gameButtonClicker);
+    game_menu.AddItem(new MenuActionItem("Game 1", &dummy_function));
+    game_menu.AddItem(new MenuSimpleItem("Game 2"));
 
     // settings submenu
     CliMenu settings_menu("Settings");
-    settings_menu.addItem(new MenuActionItem("Print time", &AuxFunctions::printTime));
-    settings_menu.addItem(new MenuActionItem("Set time", &AuxFunctions::setTime));
+    settings_menu.AddItem(new MenuActionItem("Print time", &AuxFunctions::printTime));
+    settings_menu.AddItem(new MenuActionItem("Set time", &AuxFunctions::setTime));
+    settings_menu.AddItem(new MenuActionItem("LED test", &lc_testLed));
 
     // main menu
-    this->main_menu.addItem(&game_menu);
-    this->main_menu.addItem(&settings_menu);
+    this->main_menu.AddItem(&game_menu);
+    this->main_menu.AddItem(&settings_menu);
     
     // start
     this->main_menu.apply();

@@ -6,6 +6,9 @@
 
 using namespace std;
 
+/*
+ * class represents auxiliary library for different purposes
+ */
 class AuxFunctions {
     public:
         static void printInputError(string s, int i);

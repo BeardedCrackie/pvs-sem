@@ -7,6 +7,9 @@
 #define DELAY 1500ms
 #define CONTEST_TIME 10s
 
+/*
+ * class represents game ButtonClicker
+ */
 class ButtonClicker {
     public:
         static void startGame();

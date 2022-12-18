@@ -1,5 +1,8 @@
 #include "auxFunctions.h"
 
+/*
+ * print error input log to serial
+ */
 void AuxFunctions::printInputError(string s, int i) {
     SerialHandler::sh_write("\nBad input\'");
     SerialHandler::sh_write(s);
@@ -8,11 +11,15 @@ void AuxFunctions::printInputError(string s, int i) {
     SerialHandler::sh_write("\', terminating!\n");
 }
 
+/*
+ * function that provides guided steps to change device's time
+ */
 void AuxFunctions::setTime() {
 
     lc_setState(info);
     struct tm custom_time;
 
+    //day
     SerialHandler::sh_write("set day: ");
     custom_time.tm_mday = SerialHandler::sh_readInt();
     if(custom_time.tm_mday < 1 || custom_time.tm_mday > 31) {
@@ -20,6 +27,7 @@ void AuxFunctions::setTime() {
         return;
     }
 
+    //month
     SerialHandler::sh_write("\nset month: ");
     custom_time.tm_mon = SerialHandler::sh_readInt() - 1;
     if(custom_time.tm_mon < 1 || custom_time.tm_mon > 12) {
@@ -27,6 +35,7 @@ void AuxFunctions::setTime() {
         return;
     }
 
+    //year
     SerialHandler::sh_write("\nset year: ");
     custom_time.tm_year = SerialHandler::sh_readInt() - 1900;
     if(custom_time.tm_year < 70 || custom_time.tm_year > 137) {
@@ -34,6 +43,7 @@ void AuxFunctions::setTime() {
         return;
     }
 
+    //hour
     SerialHandler::sh_write("\nset hour: ");
     custom_time.tm_hour = SerialHandler::sh_readInt();
     if(custom_time.tm_hour < 0 || custom_time.tm_hour > 23) {
@@ -41,6 +51,7 @@ void AuxFunctions::setTime() {
         return;
     }
 
+    //minute
     SerialHandler::sh_write("\nset minute: ");
     custom_time.tm_min = SerialHandler::sh_readInt();
     if(custom_time.tm_min < 0 || custom_time.tm_min > 59) {
@@ -48,6 +59,7 @@ void AuxFunctions::setTime() {
         return;
     }
 
+    //second
     SerialHandler::sh_write("\nset second: ");
     custom_time.tm_sec = SerialHandler::sh_readInt();
     if(custom_time.tm_sec < 0 || custom_time.tm_sec > 59) {
@@ -55,6 +67,7 @@ void AuxFunctions::setTime() {
         return;
     }
 
+    //make time object and set it as device time
     time_t t_of_day;
     t_of_day = mktime(&custom_time);
     set_time(t_of_day);

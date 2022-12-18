@@ -6,6 +6,9 @@
 using namespace std;
 typedef void (*callback_function)(void); // type for conciseness
 
+/*
+ * abstract class used as template for menu items
+ */
 class MenuItem {
     protected:
         string name;
@@ -19,6 +22,9 @@ class MenuItem {
         }; 
 };
 
+/*
+ * class used for simple menu items with only name provided
+ */
 class MenuSimpleItem : public MenuItem {
     public:
         MenuSimpleItem(string name) : MenuItem(name) {};
@@ -31,6 +37,9 @@ class MenuSimpleItem : public MenuItem {
         }; 
 };
 
+/*
+ * class used for menu items that points to function
+ */
 class MenuActionItem : public MenuItem {
     private:
         callback_function action_function;
