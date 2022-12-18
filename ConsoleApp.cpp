@@ -1,11 +1,11 @@
 #include "ConsoleApp.h"
 #include "LedController.h"
-//#include "SerialHandler.h"
+#include "auxFunctions.h"
 
 void ConsoleApp::start() {
 
     CliMenu game_menu("Browse Games");
-    game_menu.addItem(new MenuSimpleItem("Game 1"));
+    game_menu.addItem(new MenuActionItem("Print time", &aux_print));
     game_menu.addItem(new MenuSimpleItem("Game 2"));
     game_menu.addItem(new MenuSimpleItem("Game 3"));
     game_menu.addItem(new MenuSimpleItem("Game 4"));

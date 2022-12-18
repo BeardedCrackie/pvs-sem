@@ -4,6 +4,7 @@
 #include "LedController.h"
 
 using namespace std;
+typedef void (*callback_function)(void); // type for conciseness
 
 class MenuItem {
     protected:
@@ -27,5 +28,17 @@ class MenuSimpleItem : public MenuItem {
             ThisThread::sleep_for(2s);
             lc_setState(running);
             ThisThread::sleep_for(5s);
+        }; 
+};
+
+class MenuActionItem : public MenuItem {
+    private:
+        callback_function action_function;
+    public:
+        MenuActionItem(string name, callback_function action_function) : MenuItem(name) {
+            this->action_function = action_function;
+        };
+        virtual void apply() override{
+            action_function();
         }; 
 };

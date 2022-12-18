@@ -28,12 +28,12 @@ char sh_readChar()
 {   
     lastChar = '\n';
     while (lastChar == '\n') {
-        ThisThread::sleep_for(150ms);
+        ThisThread::sleep_for(50ms);
     }
     return lastChar;
 }
 
 void sh_write(string s) {
     const char * c = s.c_str();
-    serial_port.write(&c, sizeof(c));
+    serial_port.write(c, s.length());
 }
