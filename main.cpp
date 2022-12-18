@@ -1,23 +1,23 @@
 #include "mbed.h"
+#include "ConsoleApp.h"
+#include "SerialHandler.h"
+#include "LedController.h"
 
-DigitalOut led1(LED1);
-DigitalOut led2(LED2);
-Thread thread;
-
-void led2_thread()
-{
-    while (true) {
-        led2 = !led2;
-        ThisThread::sleep_for(250ms);
-    }
+void main_end() {
+    lc_setState(prepare);
+    ThisThread::sleep_for(2s);
+    lc_setState(warning);
+    ThisThread::sleep_for(2s);
+    lc_stop();
 }
 
-int main()
+int main(void)
 {
-    thread.start(led2_thread);
-
-    while (true) {
-        led1 = !led1;
-        ThisThread::sleep_for(600ms);
-    }
+    lc_setState(prepare);
+    lc_run();
+    ThisThread::sleep_for(2s);
+    sh_init();
+    ConsoleApp *ca = new ConsoleApp();
+    ca->start();
+    main_end();
 }

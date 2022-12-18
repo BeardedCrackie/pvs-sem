@@ -1,61 +1,86 @@
 #include "LedController.h"
+#include <string>
 
-LedController::LedController() {
-    cs = stop;
-}
+ControlState lc_controlState;
+Thread lc_thread;
+bool lc_enabled;
 
-void run()
+void lc_blink()
 {
-    DigitalOut red(LED1);
-    DigitalOut green(LED2);
-    DigitalOut blur(LED3);
-    while (true) {
-        switch(cs) {
-            case : 
-                std::cout << "red\n";   break;
-            case green: std::cout << "green\n"; break;
-            case blue : std::cout << "blue\n";  break;
+    lc_enabled = true;
+    DigitalOut red(LED_RED);
+    DigitalOut green(LED_GREEN);
+    DigitalOut blue(LED_BLUE);
+    while (lc_enabled) {
+        red = 0;
+        blue = 0;
+        green = 0;
+        switch(lc_controlState) {
+            case info:
+                for (int i = 0; i < 7; i++) {
+                    blue = !blue;
+                    ThisThread::sleep_for(125ms);
+                }
+                ThisThread::sleep_for(2s);
+                break;
+            case warning : 
+            // 3 times fast blink red led, than some time off
+                for (int i = 0; i < 7; i++) {
+                    red = !red;
+                    ThisThread::sleep_for(125ms);
+                }
+                ThisThread::sleep_for(2s);
+                break;
+            case running : 
+            // 3 times fast blink red led, than some time off
+                green = 1;
+                break;
+            case prepare : 
+            // 3 times fast blink red led, than some time off
+                red = 1;
+                ThisThread::sleep_for(125ms);
+                blue = 1;
+                ThisThread::sleep_for(125ms);
+                green = 1;
+                ThisThread::sleep_for(500ms);
+                red=0, blue=0, green = 0;
+                ThisThread::sleep_for(250ms);
+                break;
+            case disabled: 
+            default:
+            // all off
+                red = 0;
+                blue = 0;
+                green = 0;
         }
-        led2 = !led2;
         ThisThread::sleep_for(250ms);
-
-        led1 = !led1;
-        ThisThread::sleep_for(600ms);
-
-    }
-}
-
-void LedController::start_blink() {
-    
-
-
-    void blink() {
-        while (true) {
-            led1 = !led1;
-            ThisThread::sleep_for(600ms);
-        }
-    }
-    thread.start(this.blink());
-
-DigitalOut led(LED1);
-    
-
-    while (true) {
-        led1 = !led1;
-        ThisThread::sleep_for(2s);
-        led2 = !led2;
-        led3 = !led3;
     }
 };
 
-
-// main() runs in its own thread in the OS
-int main()
-{
-    while (true) {
-        led1 = !led1;
-        ThisThread::sleep_for(2s);
-        led2 = !led2;
-        led3 = !led3;
-    }
+void lc_run() {
+    lc_thread.start(lc_blink);
 }
+
+void lc_stop(){
+    lc_enabled = false;
+    lc_setState(disabled);
+    lc_thread.join();
+}
+
+void lc_setState(ControlState cs) {
+    lc_controlState = cs;
+}
+
+void lc_testLed() {
+    lc_run();
+    cout << "test running" << endl;
+    //iterate over each state
+    for (int state = info; state != disabled; state++) {
+        ControlState cs = static_cast<ControlState>(state);
+        lc_setState(cs);
+        cout << "state changed to: " << to_string(cs) << endl;
+        ThisThread::sleep_for(TEST_DELAY);
+    }
+    cout << "end of test" << endl;
+}
+
