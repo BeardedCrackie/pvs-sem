@@ -24,7 +24,7 @@ class MenuSimpleItem : public MenuItem {
         virtual void apply() override{
             lc_setState(prepare);
             printf("\n\n=== %s ===\n\n", this->getName().c_str());
-            ThisThread::sleep_for(1s);
+            ThisThread::sleep_for(2s);
             lc_setState(running);
             ThisThread::sleep_for(5s);
         }; 
