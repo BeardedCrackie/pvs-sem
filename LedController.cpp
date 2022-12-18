@@ -24,7 +24,7 @@ void lc_blink()
                 ThisThread::sleep_for(2s);
                 break;
             case warning : 
-            // 3 times fast blink red led, than some time off
+                // 3 times fast blink red led, than some time off
                 for (int i = 0; i < 7; i++) {
                     red = !red;
                     ThisThread::sleep_for(125ms);
@@ -32,7 +32,6 @@ void lc_blink()
                 ThisThread::sleep_for(2s);
                 break;
             case running : 
-            // 3 times fast blink red led, than some time off
                 green = 1;
                 break;
             case prepare : 
@@ -83,4 +82,3 @@ void lc_testLed() {
     }
     cout << "end of test" << endl;
 }
-

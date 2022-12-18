@@ -15,4 +15,3 @@ void lc_run();
 void lc_stop();
 void lc_setState(ControlState cs);
 void lc_testLed();
-
